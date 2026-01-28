@@ -52,14 +52,14 @@ class SubjectForm extends Form
                 'subject_name' => $this->subject_name,
                 'subject_code' => $this->subject_code,
                 'semester_id' => $this->semester_id,
-                // 'status' => $this->status,
+                'status' => $this->status,
             ]);
         } else {
             Subject::create([
                 'subject_name' => $this->subject_name,
                 'subject_code' => $this->subject_code,
                 'semester_id' => $this->semester_id,
-                // 'status' => $this->status,
+                'status' => $this->status,
             ]);
         }
 

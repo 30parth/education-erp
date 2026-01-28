@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
+            'username' => 'admin@example.com',
             'role' => 'admin',
         ]);
 
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Teacher User',
             'email' => 'teacher@example.com',
+            'username' => 'teacher@example.com',
             'role' => 'teacher',
         ]);
 
@@ -33,6 +35,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Student User',
             'email' => 'student@example.com',
+            'username' => '216920307012',
             'role' => 'student',
         ]);
     }

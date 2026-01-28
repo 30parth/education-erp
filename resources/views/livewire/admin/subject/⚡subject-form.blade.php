@@ -31,5 +31,6 @@ new class extends Component {
         <x-ui.form.input-with-label label="Subject Name" id="subject_name" name="form.subject_name" />
         <x-ui.form.input-with-label label="Subject Code" id="subject_code" name="form.subject_code" />
         <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" />
+        <x-common.status-radio-button name="form.status" />
     </form>
 </div>
