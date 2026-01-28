@@ -14,6 +14,8 @@ new class extends Component {
 
     public $search = '';
 
+    public $id = 0;
+
     #[Computed]
     public function semesterList()
     {
@@ -21,16 +23,30 @@ new class extends Component {
             ->where('semester_code', 'like', '%' . $this->search . '%')
             ->paginate(10);
     }
+    public function delete($id)
+    {
+        $semester = Semester::find($id);
+        $semester->delete();
+
+        $this->dispatch('refresh');
+    }
 };
 ?>
 
+
+@php
+    $isEdit = $id > 0 ? true : false;
+    $modalTitle = $isEdit ? 'Edit Semester' : 'Add Semester';
+    $footerButton = $isEdit ? 'Update' : 'Save';
+@endphp
 <div class="p-4">
     <div class="w-full">
         <div class="flex flex-col items-center justify-between  space-y-3 md:flex-row md:space-y-0 md:space-x-4">
             <x-common.search-filter />
             <div
                 class="flex flex-col  justify-end w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                <x-ui.button data-modal-target="semester-form-modal" data-modal-show="semester-form-modal">
+                <x-ui.button data-modal-target="semester-form-modal" data-modal-show="semester-form-modal"
+                    wire:click="$set('id', 0)">
                     Add Semester
                 </x-ui.button>
             </div>
@@ -50,14 +66,14 @@ new class extends Component {
                     <x-ui.table.th>
                         Semester Code
                     </x-ui.table.th>
-                    <x-ui.table.th>
-                        <span class="sr-only">Edit</span>
+                    <x-ui.table.th class="text-between">
+                        Action
                     </x-ui.table.th>
                 </tr>
             </x-ui.table.head>
             <x-ui.table.body>
                 @foreach ($this->semesterList as $index => $semester)
-                    <x-ui.table.row>
+                    <x-ui.table.row wire:key="{{ $semester->id }}">
                         <x-ui.table.td>
                             {{ $index + 1 }}
                         </x-ui.table.td>
@@ -68,7 +84,7 @@ new class extends Component {
                             {{ $semester->semester_code }}
                         </x-ui.table.td>
                         <x-ui.table.td>
-                            <a href="#" class="font-medium text-fg-brand hover:underline">Edit</a>
+                            <x-common.action-button id="{{ $semester->id }}" modalId="semester-form-modal" />
                         </x-ui.table.td>
                     </x-ui.table.row>
                 @endforeach
@@ -79,8 +95,15 @@ new class extends Component {
 
     </div>
 
-    <x-ui.modal title="Create Semester" id="semester-form-modal" footerButton="Save" size="md"
-        formId="semester-form">
-        @livewire('admin.semester.semester-form', ['modalId' => 'semester-form-modal'])
+    <x-ui.modal title="{{ $modalTitle }}" id="semester-form-modal" footerButton="{{ $footerButton }}" size="sm"
+        formId="semester-form" wire:ignore.self>
+        @livewire(
+            'admin.semester.semester-form',
+            [
+                'modalId' => 'semester-form-modal',
+                'semester' => $id ?: null,
+            ],
+            key('semester-form-' . $id)
+        )
     </x-ui.modal>
 </div>

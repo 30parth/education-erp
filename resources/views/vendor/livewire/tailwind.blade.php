@@ -10,7 +10,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
     : '';
 @endphp
 
-<div class="flex justify-between mt-4">
+<div class="flex justify-end mt-4">
     @if ($paginator->hasPages()) 
         <nav aria-label="Page navigation example">
             <ul class="flex -space-x-px text-sm">
