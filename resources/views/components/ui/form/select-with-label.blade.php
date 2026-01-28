@@ -4,6 +4,7 @@
     'label' => '',
     'valueLabel' => 'name',
     'value' => 'id',
+    'options' => [],
 ])
 <div class="mb-3">
     @if (!$attributes->has('no-label'))
@@ -20,7 +21,7 @@
             : 'bg-neutral-secondary-medium border-default-medium text-heading focus:ring-brand focus:border-brand' }}">
 
         <option value="">Select</option>
-        @foreach ($attributes->get('options') as $option)
+        @foreach ($options as $option)
             <option value="{{ $option[$value] }}">{{ $option[$valueLabel] }}</option>
         @endforeach
     </select>

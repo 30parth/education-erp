@@ -22,6 +22,10 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/semester', 'admin.semester.semester-list')->name('semester.list');
 
             Route::livewire('/subject', 'admin.subject.subject-list')->name('subject.list');
+
+            Route::livewire('/student', 'admin.student.student-list')->name('student.list');
+
+            Route::livewire('/teacher', 'admin.teacher.teacher-list')->name('teacher.list');
         });
     });
 
