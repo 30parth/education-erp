@@ -38,13 +38,13 @@ new class extends Component {
 <div class="p-4">
     <form action="" wire:submit.prevent="changePassword">
 
-        <x-ui.input-with-label id="current_password" name="current_password" label="Current Password"
+        <x-ui.form.input-with-label id="current_password" name="current_password" label="Current Password"
             placeholder="Current Password" type="password" />
 
-        <x-ui.input-with-label id="new_password" name="new_password" label="New Password" placeholder="New Password"
+        <x-ui.form.input-with-label id="new_password" name="new_password" label="New Password" placeholder="New Password"
             type="password" />
 
-        <x-ui.input-with-label id="confirm_password" name="confirm_password" label="Confirm Password"
+        <x-ui.form.input-with-label id="confirm_password" name="confirm_password" label="Confirm Password"
             placeholder="Confirm Password" type="password" />
 
         <x-ui.button type="submit">Change Password</x-ui.button>

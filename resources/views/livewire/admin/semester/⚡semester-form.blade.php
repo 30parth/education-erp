@@ -37,7 +37,7 @@ new class extends Component {
 
 <div>
     <form id="semester-form" wire:submit.prevent="save">
-        <x-ui.input-with-label label="Semester Name" id="semester_name" name="form.semester_name" />
-        <x-ui.input-with-label label="Semester Code" id="semester_code" name="form.semester_code" />
+        <x-ui.form.input-with-label label="Semester Name" id="semester_name" name="form.semester_name" />
+        <x-ui.form.input-with-label label="Semester Code" id="semester_code" name="form.semester_code" />
     </form>
 </div>

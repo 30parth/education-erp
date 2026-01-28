@@ -1,7 +1,7 @@
 @props(['id', 'modalId' => 'defaultModal'])
 <div class="inline-flex  justify-between">
     <button type='button' wire:click="$set('id',{{ $id }})" data-modal-target="{{ $modalId }}"
-        data-modal-show="{{ $modalId }}">
+        data-modal-show="{{ $modalId }}" wire:ignore.self>
         <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
             fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

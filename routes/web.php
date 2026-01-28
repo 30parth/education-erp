@@ -20,6 +20,8 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/', 'admin.dashboard')->name('dashboard');
 
             Route::livewire('/semester', 'admin.semester.semester-list')->name('semester.list');
+
+            Route::livewire('/subject', 'admin.subject.subject-list')->name('subject.list');
         });
     });
 

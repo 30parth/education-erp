@@ -21,7 +21,7 @@ new class extends Component {
     {
         return Semester::where('semester_name', 'like', '%' . $this->search . '%')
             ->where('semester_code', 'like', '%' . $this->search . '%')
-            ->paginate(10);
+            ->paginate(2);
     }
     public function delete($id)
     {
@@ -41,12 +41,10 @@ new class extends Component {
 @endphp
 <div class="p-4">
     <div class="w-full">
-        <div class="flex flex-col items-center justify-between  space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center justify-between  space-y-3 md:flex-row">
             <x-common.search-filter />
-            <div
-                class="flex flex-col  justify-end w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                <x-ui.button data-modal-target="semester-form-modal" data-modal-show="semester-form-modal"
-                    wire:click="$set('id', 0)">
+            <div class="flex flex-col justify-end w-full md:flex-row">
+                <x-ui.button data-modal-target="semester-form-modal" data-modal-show="semester-form-modal">
                     Add Semester
                 </x-ui.button>
             </div>
