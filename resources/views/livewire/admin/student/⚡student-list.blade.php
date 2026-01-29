@@ -82,7 +82,7 @@ new class extends Component {
         {{ $this->studentList->links() }}
     </div>
 
-    <x-ui.modal title="{{ $modalTitle }}" id="student-form-modal" footerButton="{{ $footerButton }}" size="xl"
+    <x-ui.modal title="{{ $modalTitle }}" id="student-form-modal" footerButton="{{ $footerButton }}" size="lg"
         formId="student-form" wire:ignore.self>
         @livewire(
             'admin.student.student-form',
