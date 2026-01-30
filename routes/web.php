@@ -7,6 +7,10 @@ Route::middleware('guest')->group(function () {
         return redirect()->route('login');
     });
     Route::livewire('/login', 'auth.login')->name('login');
+
+    // Error Page Routes
+    Route::view('/page-not-found', 'errors.404')->name('page.not.found');
+    Route::view('/access-denied', 'errors.403')->name('access.denied');
 });
 
 Route::middleware('auth')->group(function () {
@@ -26,6 +30,8 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/student', 'admin.student.student-list')->name('student.list');
 
             Route::livewire('/teacher', 'admin.teacher.teacher-list')->name('teacher.list');
+
+            Route::livewire('/division', 'admin.division.division-list')->name('division.list');
         });
     });
 

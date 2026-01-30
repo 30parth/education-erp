@@ -52,6 +52,10 @@ class Sidebar extends Component
                     [
                         'label' => 'Subject',
                         'url' => '/admin/subject',
+                    ],
+                    [
+                        'label' => 'Division',
+                        'url' => '/admin/division',
                     ]
                 ]
             ],
