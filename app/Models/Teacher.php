@@ -25,4 +25,9 @@ class Teacher extends Model
         'mobile_number',
         'address',
     ];
+
+    public function timetables()
+    {
+        return $this->hasMany(TimeTable::class);
+    }
 }

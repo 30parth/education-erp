@@ -5,7 +5,7 @@
     'placeholder' => '',
     'type' => 'text',
 ])
-<div class="mb-3">
+<div class="">
     @if (!$attributes->has('no-label'))
         <label for="{{ $id }}" class="block mb-2.5 text-sm font-medium text-heading">{{ $label }}</label>
     @endif

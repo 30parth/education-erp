@@ -32,6 +32,11 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/teacher', 'admin.teacher.teacher-list')->name('teacher.list');
 
             Route::livewire('/division', 'admin.division.division-list')->name('division.list');
+
+            Route::prefix('timetable')->name('timetable.')->group(function () {
+                Route::livewire('/', 'admin.time-table.time-tabel-list')->name('list');
+                Route::livewire('/create', 'admin.time-table.time-tabel-form')->name('create');
+            });
         });
     });
 
