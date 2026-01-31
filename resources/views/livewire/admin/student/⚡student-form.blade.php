@@ -40,8 +40,8 @@ new class extends Component {
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <x-ui.form.input-with-label id="admission_no" name="form.admission_no" label="Admission No :" />
             <x-ui.form.input-with-label id="roll_number" name="form.roll_number" label="Roll Number :" />
-            <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" />
-            <x-dropdown.section-dropdown id="section" name="form.section" />
+            <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" is-live />
+            <x-dropdown.division-dropdown :semester_id="$form->semester_id" name="form.section" />
             <x-ui.form.input-with-label id="admission_date" name="form.admission_date" label="Admission Date :"
                 type="date" />
             <x-dropdown.category-dropdown id="category" name="form.category" />

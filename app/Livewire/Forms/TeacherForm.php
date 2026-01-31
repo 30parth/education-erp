@@ -3,7 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Teacher;
-
+use App\Models\User;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -53,6 +53,9 @@ class TeacherForm extends Form
     #[Validate('nullable')]
     public $address = '';
 
+    #[Validate('nullable')]
+    public $user_id = '';
+
     public function setTeacher(Teacher $teacher)
     {
         $this->teacher = $teacher;
@@ -70,6 +73,7 @@ class TeacherForm extends Form
         $this->email = $teacher->email;
         $this->mobile_number = $teacher->mobile_number;
         $this->address = $teacher->address;
+        $this->user_id = $teacher->user_id;
     }
 
     public function save()
@@ -79,6 +83,13 @@ class TeacherForm extends Form
         if ($this->teacher) {
             $this->teacher->update($this->all());
         } else {
+            $user = User::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'username' => $this->email,
+                'password' => bcrypt($this->mobile_number),
+            ]);
+            $this->user_id = $user->id;
             Teacher::create($this->all());
         }
 

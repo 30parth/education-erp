@@ -3,7 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Student;
-
+use App\Models\User;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -50,6 +50,8 @@ class StudentForm extends Form
     #[Validate('nullable')]
     public $medical_history = '';
 
+    public $user_id = null;
+
     public function setStudent(Student $student)
     {
         $this->student = $student;
@@ -66,6 +68,7 @@ class StudentForm extends Form
         $this->mobile_number = $student->mobile_number;
         $this->email = $student->email;
         $this->medical_history = $student->medical_history;
+        $this->user_id = $student->user_id;
     }
 
     public function save()
@@ -75,6 +78,13 @@ class StudentForm extends Form
         if ($this->student) {
             $this->student->update($this->all());
         } else {
+            $user = User::create([
+                'name' => $this->name,
+                'email' => $this->email,
+                'username' => $this->roll_number,
+                'password' => bcrypt($this->mobile_number),
+            ]);
+            $this->user_id = $user->id;
             Student::create($this->all());
         }
 
