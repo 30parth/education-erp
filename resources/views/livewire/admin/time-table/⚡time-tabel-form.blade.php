@@ -3,8 +3,11 @@
 use Livewire\Component;
 use App\Livewire\Forms\TimetableForm;
 use App\Models\TimeTable;
+use App\Livewire\Concerns\HasRefreshListener;
 
 new class extends Component {
+    use HasRefreshListener;
+
     public TimetableForm $form;
 
     public function fetchTimeTabel()
@@ -27,6 +30,21 @@ new class extends Component {
         }
     }
 
+    public function updatedFormSemesterId()
+    {
+        $this->form->timetables = [];
+    }
+
+    public function updatedFormDivisionId()
+    {
+        $this->form->timetables = [];
+    }
+
+    public function updatedFormWeekDay()
+    {
+        $this->form->timetables = [];
+    }
+
     public function saveTimetable()
     {
         foreach ($this->form->timetables as $index => $timetable) {
@@ -40,19 +58,22 @@ new class extends Component {
             } else {
                 TimeTable::create($timetable);
             }
-            // TimeTable::updateOrCreate(
-            //     [
-            //         'id' => $timetable['id'],
-            //     ],
-            //     $timetable,
-            // );
         }
         $this->form->reset();
+        $this->dispatch('refresh');
     }
 
     public function addTimetable()
     {
         $this->form->addTimetable();
+    }
+
+    public function removeTimetable($index)
+    {
+        if ($this->form->timetables[$index]['id']) {
+            TimeTable::where('id', $this->form->timetables[$index]['id'])->delete();
+        }
+        $this->form->removeTimetable($index);
     }
 };
 ?>
@@ -64,10 +85,10 @@ new class extends Component {
                 <x-dropdown.semester-dropdown name="form.semester_id" is-live />
             </div>
             <div class="w-full md:w-1/4">
-                <x-dropdown.division-dropdown :semesterId="$form->semester_id" name="form.division_id" />
+                <x-dropdown.division-dropdown :semesterId="$form->semester_id" name="form.division_id" is-live />
             </div>
             <div class="w-full md:w-1/4">
-                <x-dropdown.week-day-dropdown name="form.week_day" />
+                <x-dropdown.week-day-dropdown name="form.week_day" is-live />
             </div>
             <div class="w-full md:w-1/4">
                 <div class="flex flex-col md:flex-row">
