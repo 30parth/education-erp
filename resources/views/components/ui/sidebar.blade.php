@@ -22,7 +22,7 @@
                             class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             aria-controls="dropdown-{{ $loop->index }}"
                             data-collapse-toggle="dropdown-{{ $loop->index }}">
-                            {!! $item['icon'] !!}
+                            <x-dynamic-component :component="$item['icon']" />
                             <span class="flex-1 ms-3 text-left whitespace-nowrap">{{ $item['label'] }}</span>
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 10 6">
@@ -43,7 +43,7 @@
                     <li>
                         <a href="{{ $item['url'] }}" wire:navigate
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            {!! $item['icon'] !!}
+                            <x-dynamic-component :component="$item['icon']" />
                             <span class="flex-1 ms-3 whitespace-nowrap">{{ $item['label'] }}</span>
                         </a>
                     </li>

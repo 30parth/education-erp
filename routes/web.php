@@ -42,7 +42,12 @@ Route::middleware('auth')->group(function () {
 
     // Teacher Routes
     Route::middleware('role:teacher')->group(function () {
-        Route::livewire('/teacher', 'teacher.dashboard')->name('teacher.dashboard');
+        Route::prefix('teacher')->name('teacher.')->group(function () {
+
+            Route::livewire('/', 'teacher.dashboard')->name('dashboard');
+
+            Route::livewire('/student', 'admin.student.student-list')->name('student.list');
+        });
     });
 
     // Student Routes
