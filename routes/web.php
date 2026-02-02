@@ -47,11 +47,18 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/', 'teacher.dashboard')->name('dashboard');
 
             Route::livewire('/student', 'admin.student.student-list')->name('student.list');
+
+            Route::livewire('/timetable', 'teacher.timetable.timetable-view')->name('timetable.view');
         });
     });
 
     // Student Routes
     Route::middleware('role:student')->group(function () {
-        Route::livewire('/student', 'student.dashboard')->name('student.dashboard');
+
+        Route::prefix('student')->name('student.')->group(function () {
+            Route::livewire('/', 'student.dashboard')->name('dashboard');
+
+            Route::livewire('/timetable', 'student.timetable.timetable-view')->name('timetable.view');
+        });
     });
 });

@@ -87,6 +87,7 @@ class TeacherForm extends Form
                 'name' => $this->name,
                 'email' => $this->email,
                 'username' => $this->email,
+                'role' => 'teacher',
                 'password' => bcrypt($this->mobile_number),
             ]);
             $this->user_id = $user->id;

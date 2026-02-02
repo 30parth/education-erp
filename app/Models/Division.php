@@ -18,4 +18,9 @@ class Division extends Model
     {
         return $this->belongsTo(Semester::class);
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

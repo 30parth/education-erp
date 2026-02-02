@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('admission_no')->unique();
             $table->string('roll_number');
             $table->foreignId('semester_id')->constrained()->onDelete('cascade');
-            $table->string('section');
+            $table->foreignId('division_id')->constrained()->onDelete('cascade');
             $table->date('admission_date');
             $table->string('category');
             $table->string('name');

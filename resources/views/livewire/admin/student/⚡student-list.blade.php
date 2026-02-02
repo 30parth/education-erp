@@ -70,7 +70,7 @@ new class extends Component {
                         <x-ui.table.td>{{ $student->admission_no }}</x-ui.table.td>
                         <x-ui.table.td>{{ $student->name }}</x-ui.table.td>
                         <x-ui.table.td>{{ $student->semester ? $student->semester->semester_name : 'N/A' }}</x-ui.table.td>
-                        <x-ui.table.td>{{ $student->section }}</x-ui.table.td>
+                        <x-ui.table.td>{{ $student->division->division_name }}</x-ui.table.td>
                         <x-ui.table.td>
                             <x-common.action-button id="{{ $student->id }}" modalId="student-form-modal" />
                         </x-ui.table.td>

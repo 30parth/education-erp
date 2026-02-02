@@ -41,7 +41,7 @@ new class extends Component {
             <x-ui.form.input-with-label id="admission_no" name="form.admission_no" label="Admission No :" />
             <x-ui.form.input-with-label id="roll_number" name="form.roll_number" label="Roll Number :" />
             <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" is-live />
-            <x-dropdown.division-dropdown :semester_id="$form->semester_id" name="form.section" />
+            <x-dropdown.division-dropdown :semester_id="$form->semester_id" name="form.division_id" is-live />
             <x-ui.form.input-with-label id="admission_date" name="form.admission_date" label="Admission Date :"
                 type="date" />
             <x-dropdown.category-dropdown id="category" name="form.category" />

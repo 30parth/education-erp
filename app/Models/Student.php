@@ -14,7 +14,7 @@ class Student extends Model
         'admission_no',
         'roll_number',
         'semester_id',
-        'section',
+        'division_id',
         'admission_date',
         'category',
         'name',
@@ -29,5 +29,9 @@ class Student extends Model
     public function semester()
     {
         return $this->belongsTo(Semester::class);
+    }
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
     }
 }

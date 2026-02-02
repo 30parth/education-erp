@@ -21,7 +21,7 @@ class StudentForm extends Form
     public $semester_id = '';
 
     #[Validate('required')]
-    public $section = '';
+    public $division_id = '';
 
     #[Validate('required')]
     public $admission_date = '';
@@ -50,6 +50,7 @@ class StudentForm extends Form
     #[Validate('nullable')]
     public $medical_history = '';
 
+    #[Validate('nullable')]
     public $user_id = null;
 
     public function setStudent(Student $student)
@@ -58,7 +59,7 @@ class StudentForm extends Form
         $this->admission_no = $student->admission_no;
         $this->roll_number = $student->roll_number;
         $this->semester_id = $student->semester_id;
-        $this->section = $student->section;
+        $this->division_id = $student->division_id;
         $this->admission_date = $student->admission_date;
         $this->category = $student->category;
         $this->name = $student->name;
@@ -82,6 +83,7 @@ class StudentForm extends Form
                 'name' => $this->name,
                 'email' => $this->email,
                 'username' => $this->roll_number,
+                'role' => 'student',
                 'password' => bcrypt($this->mobile_number),
             ]);
             $this->user_id = $user->id;
