@@ -5,10 +5,10 @@
     <!-- Sidebar Header / Logo -->
     <div
         class="h-14 flex items-center justify-between px-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shrink-0">
-        <a href="/" class="flex items-center ms-2 md:me-24">
-            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
+        <a href="/" wire:navigate class="flex items-center ms-2 md:me-24">
+            {{-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> --}}
             <span
-                class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">{{ config('app.name') }}</span>
+                class="self-center text-lg font-semibold sm:text-xl whitespace-nowrap dark:text-white">{{ ucfirst(Auth::user()->role) . ' Dashboard' }}</span>
         </a>
     </div>
 
@@ -33,16 +33,16 @@
                         <ul id="dropdown-{{ $loop->index }}" class="hidden py-2 space-y-2">
                             @foreach ($item['children'] as $child)
                                 <li>
-                                    <a href="{{ $child['url'] }}" wire:navigate
-                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $child['label'] }}</a>
+                                    <a href="{{ route($child['url']) }}" wire:navigate
+                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group {{ request()->routeIs($child['url']) ? 'bg-gray-100' : '' }} hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $child['label'] }}</a>
                                 </li>
                             @endforeach
                         </ul>
                     </li>
                 @else
                     <li>
-                        <a href="{{ $item['url'] }}" wire:navigate
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <a href="{{ route($item['url']) }}" wire:navigate
+                            class="flex items-center p-2 text-gray-900 rounded-lg {{ request()->routeIs($item['url']) ? 'bg-gray-100' : '' }} dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <x-dynamic-component :component="$item['icon']" />
                             <span class="flex-1 ms-3 whitespace-nowrap">{{ $item['label'] }}</span>
                         </a>

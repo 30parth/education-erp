@@ -3,6 +3,9 @@
 use Livewire\Component;
 use App\Livewire\Forms\TimetableForm;
 use App\Models\TimeTable;
+use App\Models\Semester;
+use App\Models\Division;
+use App\Models\Subject;
 use App\Livewire\Concerns\HasRefreshListener;
 
 new class extends Component {
@@ -12,6 +15,8 @@ new class extends Component {
 
     public function fetchTimeTabel()
     {
+        $this->form->timetables = [];
+
         $timeTable = TimeTable::where('semester_id', $this->form->semester_id)->where('division_id', $this->form->division_id)->where('day', $this->form->week_day)->get();
 
         foreach ($timeTable as $timetable) {
@@ -48,10 +53,14 @@ new class extends Component {
     public function saveTimetable()
     {
         foreach ($this->form->timetables as $index => $timetable) {
+            $semester = Semester::find($this->form->semester_id);
+            $division = Division::find($this->form->division_id);
+            $subject = Subject::find($timetable['subject_id']);
+
             $timetable['semester_id'] = $this->form->semester_id;
             $timetable['division_id'] = $this->form->division_id;
             $timetable['day'] = $this->form->week_day;
-            $timetable['lecture_code'] = $this->form->week_day . '_' . $timetable['semester_id'] . '_' . $timetable['division_id'] . '_' . $timetable['subject_id'];
+            $timetable['lecture_code'] = $index + 1 . '_' . $this->form->week_day . '_' . $semester->semester_code . '_' . $division->division_name . '_' . $subject->subject_name;
 
             if ($timetable['id']) {
                 TimeTable::where('id', $timetable['id'])->update($timetable);

@@ -32,7 +32,7 @@ class Sidebar extends Component
         return [
             [
                 'label' => 'Dashboard',
-                'url' => '/admin',
+                'url' => 'admin.dashboard',
                 'icon' => 'ui.icon.dashboard',
             ],
             [
@@ -42,26 +42,26 @@ class Sidebar extends Component
                 'children' => [
                     [
                         'label' => 'Semester',
-                        'url' => '/admin/semester',
+                        'url' => 'admin.semester.list',
                     ],
                     [
                         'label' => 'Subject',
-                        'url' => '/admin/subject',
+                        'url' => 'admin.subject.list',
                     ],
                     [
                         'label' => 'Division',
-                        'url' => '/admin/division',
+                        'url' => 'admin.division.list',
                     ]
                 ]
             ],
             [
                 'label' => "Student",
-                'url' => '/admin/student',
+                'url' => 'admin.student.list',
                 'icon' => 'ui.icon.user'
             ],
             [
                 'label' => "Teacher",
-                'url' => '/admin/teacher',
+                'url' => 'admin.teacher.list',
                 'icon' => 'ui.icon.user-group'
             ],
             [
@@ -71,11 +71,11 @@ class Sidebar extends Component
                 'children' => [
                     [
                         'label' => 'View Time Table',
-                        'url' => '/admin/timetable',
+                        'url' => 'admin.timetable.list',
                     ],
                     [
                         'label' => 'Create Time Table',
-                        'url' => '/admin/timetable/create',
+                        'url' => 'admin.timetable.create',
                     ]
                 ]
             ]
@@ -87,17 +87,17 @@ class Sidebar extends Component
         return [
             [
                 'label' => 'Dashboard',
-                'url' => '/teacher',
+                'url' => 'teacher.dashboard',
                 'icon' => 'ui.icon.dashboard',
             ],
             [
                 'label' => 'Student',
-                'url' => '/teacher/student',
+                'url' => 'teacher.student.list',
                 'icon' => 'ui.icon.user'
             ],
             [
                 'label' => 'Time Table',
-                'url' => '/teacher/timetable',
+                'url' => 'teacher.timetable.view',
                 'icon' => 'ui.icon.table'
             ]
         ];
@@ -108,12 +108,12 @@ class Sidebar extends Component
         return [
             [
                 'label' => 'Dashboard',
-                'url' => '/student',
+                'url' => 'student.dashboard',
                 'icon' => 'ui.icon.dashboard',
             ],
             [
                 'label' => 'Time Table',
-                'url' => '/student/timetable',
+                'url' => 'student.timetable.view',
                 'icon' => 'ui.icon.table'
             ]
         ];
