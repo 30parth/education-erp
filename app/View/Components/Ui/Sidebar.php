@@ -99,6 +99,11 @@ class Sidebar extends Component
                 'label' => 'Time Table',
                 'url' => 'teacher.timetable.view',
                 'icon' => 'ui.icon.table'
+            ],
+            [
+                'label' => 'Attendance',
+                'url' => 'teacher.attendance.create',
+                'icon' => 'ui.icon.calender'
             ]
         ];
     }

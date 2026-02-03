@@ -28,9 +28,11 @@ new class extends Component {
 
 <div>
     <form id="subject-form" wire:submit.prevent="save">
-        <x-ui.form.input-with-label label="Subject Name" id="subject_name" name="form.subject_name" />
-        <x-ui.form.input-with-label label="Subject Code" id="subject_code" name="form.subject_code" />
-        <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" />
-        <x-common.status-radio-button name="form.status" />
+        <div class="w-full space-y-4">
+            <x-ui.form.input-with-label label="Subject Name" id="subject_name" name="form.subject_name" />
+            <x-ui.form.input-with-label label="Subject Code" id="subject_code" name="form.subject_code" />
+            <x-dropdown.semester-dropdown id="semester_id" name="form.semester_id" />
+            <x-common.status-radio-button name="form.status" />
+        </div>
     </form>
 </div>

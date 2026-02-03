@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
             Route::livewire('/student', 'admin.student.student-list')->name('student.list');
 
             Route::livewire('/timetable', 'teacher.timetable.timetable-view')->name('timetable.view');
+
+            Route::livewire('/attendance', 'teacher.attendance.attendance-create')->name('attendance.create');
         });
     });
 
