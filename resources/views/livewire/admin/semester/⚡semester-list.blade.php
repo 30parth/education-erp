@@ -39,7 +39,12 @@ new class extends Component {
     $modalTitle = $isEdit ? 'Edit Semester' : 'Add Semester';
     $footerButton = $isEdit ? 'Update' : 'Save';
 @endphp
-<div class="p-4">
+<div class="px-4 ">
+    <x-ui.breadcrumb>
+        <x-ui.breadcrumb-item home>Home</x-ui.breadcrumb-item>
+        <x-ui.breadcrumb-item>Semester</x-ui.breadcrumb-item>
+        <x-ui.breadcrumb-item>List</x-ui.breadcrumb-item>
+    </x-ui.breadcrumb>
     <div class="w-full">
         <div class="flex flex-col items-center justify-between  space-y-3 md:flex-row">
             <x-common.search-filter />
