@@ -30,10 +30,10 @@ new class extends Component {
 
     <!-- Stats Grid -->
     <!-- Stats Grid -->
-    <div class="flex items-center justify-between gap-4 mb-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
         <!-- Students Card -->
         <div
-            class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+            class="w-full md:w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
             <div>
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Total Students</h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400 text-4xl">{{ $totalStudents }}</p>
@@ -46,7 +46,7 @@ new class extends Component {
 
         <!-- Teachers Card -->
         <div
-            class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
+            class="w-full md:w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center justify-between">
             <div>
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Total Teachers</h5>
                 <p class="font-normal text-gray-700 dark:text-gray-400 text-4xl">{{ $totalTeachers }}</p>
@@ -58,7 +58,6 @@ new class extends Component {
         </div>
     </div>
 
-    <!-- Recent Lists Grid -->
     <!-- Recent Lists Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <!-- Recent Students -->
