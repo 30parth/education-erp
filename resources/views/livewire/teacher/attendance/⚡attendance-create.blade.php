@@ -39,7 +39,7 @@ new class extends Component {
 
             $this->students = $students->map(function ($student) {
                 return [
-                    'id' => null,
+                    'id' => 0,
                     'student_id' => $student->id,
                     'name' => $student->name,
                     'roll_number' => $student->roll_number,
@@ -58,7 +58,7 @@ new class extends Component {
         ]);
 
         foreach ($this->students as $student) {
-            if ($student['id']) {
+            if ($student['id'] > 0) {
                 Attendance::where('id', $student['id'])->update([
                     'status' => $student['attendance'],
                 ]);
@@ -77,6 +77,7 @@ new class extends Component {
     {
         $this->students = $this->students->map(function ($student) {
             return [
+                'id' => $student['id'],
                 'student_id' => $student['student_id'],
                 'name' => $student['name'],
                 'roll_number' => $student['roll_number'],
