@@ -44,6 +44,11 @@ new class extends Component {
         <div class="flex flex-col items-center justify-between space-y-3 md:flex-row">
             <x-common.search-filter />
             <div class="flex flex-col justify-end w-full md:flex-row">
+                <a href="{{ route('admin.student.export') }}" class="mr-2">
+                    <x-ui.button type="button" class="bg-green-600 hover:bg-green-700">
+                        Export Excel
+                    </x-ui.button>
+                </a>
                 <x-ui.button data-modal-target="student-form-modal" data-modal-show="student-form-modal">
                     Add Student
                 </x-ui.button>

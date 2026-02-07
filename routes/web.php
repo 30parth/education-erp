@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
             Route::livewire('/subject', 'admin.subject.subject-list')->name('subject.list');
 
+            Route::get('/student/export', [\App\Http\Controllers\Admin\StudentController::class, 'export'])->name('student.export');
             Route::livewire('/student', 'admin.student.student-list')->name('student.list');
 
             Route::livewire('/teacher', 'admin.teacher.teacher-list')->name('teacher.list');
