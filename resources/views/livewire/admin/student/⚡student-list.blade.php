@@ -44,6 +44,13 @@ new class extends Component {
         <div class="flex flex-col items-center justify-between space-y-3 md:flex-row">
             <x-common.search-filter />
             <div class="flex flex-col justify-end w-full md:flex-row">
+                <form action="{{ route('admin.student.import') }}" method="POST" enctype="multipart/form-data" class="inline-block mr-2">
+                    @csrf
+                    <input type="file" name="file" class="hidden" id="import-file" onchange="this.form.submit()">
+                    <x-ui.button type="button" onclick="document.getElementById('import-file').click()" class="bg-blue-600 hover:bg-blue-700">
+                        Import Excel
+                    </x-ui.button>
+                </form>
                 <a href="{{ route('admin.student.export') }}" class="mr-2">
                     <x-ui.button type="button" class="bg-green-600 hover:bg-green-700">
                         Export Excel

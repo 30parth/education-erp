@@ -12,4 +12,15 @@ class StudentController extends Controller
     {
         return Excel::download(new StudentsExport, 'students.xlsx');
     }
+
+    public function import()
+    {
+        request()->validate([
+            'file' => 'required|mimes:xlsx,excel,csv',
+        ]);
+
+        Excel::import(new \App\Imports\StudentsImport, request()->file('file'));
+
+        return back()->with('success', 'Students imported successfully.');
+    }
 }
