@@ -17,28 +17,40 @@
         <ul class="space-y-2 font-medium">
             @foreach ($menuItems as $item)
                 @if (isset($item['children']) && !empty($item['children']))
-                    <li>
-                        <button type="button"
-                            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                            aria-controls="dropdown-{{ $loop->index }}"
-                            data-collapse-toggle="dropdown-{{ $loop->index }}">
-                            <x-dynamic-component :component="$item['icon']" />
-                            <span class="flex-1 ms-3 text-left whitespace-nowrap">{{ $item['label'] }}</span>
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 4 4 4-4" />
-                            </svg>
-                        </button>
-                        <ul id="dropdown-{{ $loop->index }}" class="hidden py-2 space-y-2">
-                            @foreach ($item['children'] as $child)
-                                <li>
-                                    <a href="{{ route($child['url']) }}" wire:navigate
-                                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group {{ request()->routeIs($child['url']) ? 'bg-gray-100' : '' }} hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $child['label'] }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
+                    @php
+        $isActive = false;
+        if (isset($item['children'])) {
+            foreach ($item['children'] as $child) {
+                if (request()->routeIs($child['url'])) {
+                    $isActive = true;
+                    break;
+                }
+            }
+        }
+    @endphp
+    <li>
+        <button type="button"
+            class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+            aria-controls="dropdown-{{ $loop->index }}"
+            data-collapse-toggle="dropdown-{{ $loop->index }}"
+            aria-expanded="{{ $isActive ? 'true' : 'false' }}">
+            <x-dynamic-component :component="$item['icon']" />
+            <span class="flex-1 ms-3 text-left whitespace-nowrap">{{ $item['label'] }}</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" d="m1 1 4 4 4-4" />
+            </svg>
+        </button>
+        <ul id="dropdown-{{ $loop->index }}" class="{{ $isActive ? '' : 'hidden' }} py-2 space-y-2">
+            @foreach ($item['children'] as $child)
+                <li>
+                    <a href="{{ route($child['url']) }}" wire:navigate
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group {{ request()->routeIs($child['url']) ? 'bg-gray-100' : '' }} hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ $child['label'] }}</a>
+                </li>
+            @endforeach
+        </ul>
+    </li>
                 @else
                     <li>
                         <a href="{{ route($item['url']) }}" wire:navigate
