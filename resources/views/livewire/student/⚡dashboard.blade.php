@@ -10,8 +10,27 @@ new class extends Component {
     public $weekDays = [];
     public $timeSlots = [];
     public $timetableData = [];
+    public $currentWeekStart;
 
     public function mount()
+    {
+        $this->currentWeekStart = now()->startOfWeek()->format('Y-m-d');
+        $this->loadData();
+    }
+
+    public function previousWeek()
+    {
+        $this->currentWeekStart = Carbon::parse($this->currentWeekStart)->subWeek()->format('Y-m-d');
+        $this->loadData();
+    }
+
+    public function nextWeek()
+    {
+        $this->currentWeekStart = Carbon::parse($this->currentWeekStart)->addWeek()->format('Y-m-d');
+        $this->loadData();
+    }
+
+    public function loadData()
     {
         $student = Auth::user()->student;
 
@@ -19,8 +38,13 @@ new class extends Component {
             return;
         }
 
-        $startOfWeek = now()->startOfWeek();
-        $endOfWeek = now()->endOfWeek();
+        $startOfWeek = Carbon::parse($this->currentWeekStart);
+        $endOfWeek = $startOfWeek->copy()->endOfWeek();
+
+        // Reset data
+        $this->weekDays = [];
+        $this->timeSlots = [];
+        $this->timetableData = [];
 
         // Generate dates for the current week
         $currentDate = $startOfWeek->copy();
@@ -41,7 +65,7 @@ new class extends Component {
 
         // Fetch Attendance
         $attendances = Attendance::where('student_id', $student->id)
-            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->whereBetween('date', [$startOfWeek->format('Y-m-d'), $endOfWeek->format('Y-m-d')])
             ->get()
             ->keyBy(function ($item) {
                 return $item->date . '_' . $item->lecture_code;
@@ -100,10 +124,18 @@ new class extends Component {
             <h1 class="text-3xl font-bold text-gray-800">Student Dashboard</h1>
             <p class="text-gray-600">Weekly Attendance & Timetable</p>
         </div>
-        <div class="text-right">
-            <span class="px-4 py-2 bg-white rounded-lg shadow-sm border text-sm font-medium">
-                {{ now()->startOfWeek()->format('d M') }} - {{ now()->endOfWeek()->format('d M, Y') }}
+        <div class="flex items-center gap-2">
+            <button wire:click="previousWeek"
+                class="p-2 bg-white rounded-lg shadow-sm border hover:bg-gray-50 text-gray-600">
+                <x-ui.icon.arrow-left />
+            </button>
+            <span class="px-4 py-2 bg-white rounded-lg shadow-sm border text-sm font-medium min-w-[140px] text-center">
+                {{ \Carbon\Carbon::parse($currentWeekStart)->format('d M') }} -
+                {{ \Carbon\Carbon::parse($currentWeekStart)->endOfWeek()->format('d M, Y') }}
             </span>
+            <button wire:click="nextWeek" class="p-2 bg-white rounded-lg shadow-sm border hover:bg-gray-50 text-gray-600">
+                <x-ui.icon.arrow-right />
+            </button>
         </div>
     </div>
 
