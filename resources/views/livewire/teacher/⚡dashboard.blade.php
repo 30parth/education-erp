@@ -84,10 +84,16 @@ new class extends Component {
                             </span>
                         </div>
 
-                        {{-- Room (Placeholder if needed, derived from image) --}}
-                        {{-- <div class="flex items-center gap-2 text-gray-500 text-xs">
-                        <span>Room No.: 111</span>
-                    </div> --}}
+                        <div class="flex items-center gap-2 mb-2 text-green-600 text-sm">
+                            <div class="text-green-600 font-medium text-sm">
+                                Sem : {{ $schedule['semester']['semester_name'] }}
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 mb-2 text-green-600 text-sm">
+                            <div class="text-green-600 font-medium text-sm">
+                                Div : {{ $schedule['division']['division_name'] }}
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             @else
