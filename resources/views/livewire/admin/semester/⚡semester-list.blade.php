@@ -21,7 +21,7 @@ new class extends Component {
     {
         return Semester::where('semester_name', 'like', '%' . $this->search . '%')
             ->where('semester_code', 'like', '%' . $this->search . '%')
-            ->paginate(2);
+            ->paginate(10);
     }
     public function delete($id)
     {
