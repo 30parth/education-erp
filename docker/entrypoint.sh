@@ -12,5 +12,9 @@ php artisan view:cache
 echo "==> Running migrations..."
 php artisan migrate --force
 
+echo "==> Configuring Nginx port..."
+export PORT=${PORT:-80}
+envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
 echo "==> Starting supervisord..."
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

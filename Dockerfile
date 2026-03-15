@@ -2,7 +2,7 @@ FROM php:8.4-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip nginx supervisor \
+    git curl zip unzip nginx supervisor gettext-base \
     libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
     libzip-dev libonig-dev libxml2-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -42,13 +42,15 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# ↓ FIXED: use nginx.conf directly, not sites-available
-COPY docker/nginx.conf /etc/nginx/nginx.conf
+# Copy nginx template instead of setting it directly
+COPY docker/nginx.conf /etc/nginx/nginx.conf.template
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# ↓ NEW: entrypoint for Laravel bootstrap
+# Entrypoint for Laravel bootstrap
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 80
+# Render provides the PORT environment variable
+ENV PORT=80
+
 CMD ["/entrypoint.sh"]
