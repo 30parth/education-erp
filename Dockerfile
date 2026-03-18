@@ -1,56 +1,85 @@
-FROM php:8.4-fpm
+# Stage 1: Build PHP Dependencies
+FROM composer:2.7 as vendor
+WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip nginx supervisor gettext-base \
-    libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
-    libzip-dev libonig-dev libxml2-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Node.js 20.x
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql mbstring zip bcmath opcache
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-RUN docker-php-ext-install gd
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-WORKDIR /var/www/html
-
+# Copy composer files
 COPY composer.json composer.lock ./
-RUN composer config --unset config.platform.ext-gd || true
+
+# Install dependencies
 RUN composer install \
-    --optimize-autoloader \
     --no-dev \
     --no-interaction \
-    --no-scripts \
-    --prefer-dist
+    --prefer-dist \
+    --optimize-autoloader \
+    --ignore-platform-reqs \
+    --no-scripts
 
-COPY package.json package-lock.json ./
-RUN npm install
-
+# Copy application files
 COPY . .
+RUN composer dump-autoload --optimize --no-scripts
+
+# Stage 2: Build Frontend Assets
+FROM node:20 as frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+# Vite might need some vendor files for its plugin
+COPY --from=vendor /app/vendor /app/vendor
 RUN npm run build
-RUN rm -rf node_modules
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/bootstrap/cache
+# Stage 3: Production Image
+FROM php:8.4-apache
+WORKDIR /var/www/html
 
-# Copy nginx template instead of setting it directly
-COPY docker/nginx.conf /etc/nginx/nginx.conf.template
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Install required system dependencies and PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    unzip \
+    git \
+    libicu-dev \
+    sqlite3 \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql gd zip intl bcmath \
+    && a2enmod rewrite \
+    && rm -rf /var/lib/apt/lists/*
 
-# Entrypoint for Laravel bootstrap
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Render provides the PORT environment variable
+# Update Apache configuration to point to public directory and use Render's PORT
+# Render sets the PORT env variable automatically. We configure Apache to listen to it.
 ENV PORT=80
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-CMD ["/entrypoint.sh"]
+RUN sed -i "s/Listen 80/Listen \${PORT}/g" /etc/apache2/ports.conf \
+    && sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:\${PORT}>/g" /etc/apache2/sites-available/000-default.conf \
+    && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Copy application from vendor stage
+COPY --from=vendor /app /var/www/html
+
+# Copy built assets from frontend stage
+COPY --from=frontend /app/public/build /var/www/html/public/build
+
+# Copy entrypoint script
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Setup permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Allow SQLite database writing if using SQLite
+RUN touch /var/www/html/database/database.sqlite && \
+    chown www-data:www-data /var/www/html/database/database.sqlite && \
+    chmod 664 /var/www/html/database/database.sqlite && \
+    chown www-data:www-data /var/www/html/database && \
+    chmod 775 /var/www/html/database
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Inform Docker that the container listens on the specified port
+EXPOSE ${PORT}
+
+CMD ["apache2-foreground"]

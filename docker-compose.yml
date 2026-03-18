@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-render-app
+    ports:
+      - "8080:80"
+    environment:
+      - PORT=80
+      - DB_CONNECTION=mysql
+    env_file:
+      - .env
